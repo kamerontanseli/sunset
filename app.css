@@ -8,6 +8,14 @@
     opacity: 1;
   }
 }
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 * {
   box-sizing: border-box;
@@ -95,7 +103,7 @@ body.is-dark {
   position: fixed;
   right: 10px;
   top: 10px;
-  animation: load3 1.4s infinite linear;
+  animation: spin 1.4s infinite linear;
   transform: translateZ(0);
 }
 .indicator:before {
@@ -124,24 +132,6 @@ body.is-dark {
 .is-dark .indicator:after {
   background: #151515;
 }
-@-webkit-keyframes load3 {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-@keyframes load3 {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* The switch - the box around the slider */
 .switch {
   position: absolute;
   top: 10px;
@@ -150,15 +140,11 @@ body.is-dark {
   width: 40px;
   height: 18px;
 }
-
-/* Hide default HTML checkbox */
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
-
-/* The slider */
 .slider {
   position: absolute;
   cursor: pointer;
@@ -167,7 +153,6 @@ body.is-dark {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: 0.4s;
   transition: 0.4s;
   z-index: 99;
 }
@@ -179,8 +164,7 @@ body.is-dark {
   width: 13px;
   left: 2.55px;
   bottom: 2.55px;
-  background-color: white;
-  -webkit-transition: 0.4s;
+  background-color: #fff;
   transition: 0.4s;
 }
 
@@ -196,7 +180,6 @@ input:checked + .slider:before {
   transform: translateX(20px);
 }
 
-/* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }

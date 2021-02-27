@@ -1,102 +1,45 @@
 (function () {
-  var storage = window.localStorage;
-
-  var Editor = function (onSave) {
-    var element = document.querySelector(".editor");
-
-    function exec(cmd, arg) {
-      return document.execCommand(cmd, false, arg);
-    }
-
-    element.addEventListener("keydown", function (event) {
-      if (event.ctrlKey || event.metaKey) {
-        switch (event.key) {
-          case "h": {
-            event.preventDefault();
-            return exec("hiliteColor", "#d4d4d4");
-          }
-          case "m": {
-            event.preventDefault();
-            return exec("formatBlock", "h1");
-          }
-          case "k": {
-            event.preventDefault();
-            return exec("formatBlock", "h2");
-          }
-          case "s": {
-            event.preventDefault();
-            return onSave();
-          }
-          default:
-            return;
-        }
-      }
-    });
-
-    element.focus();
-
-    return {
-      getHTML: function () {
-        return element.innerHTML;
-      },
-      setHTML: function (html) {
-        element.innerHTML = html;
-      },
-      onInput: function (cb) {
-        element.addEventListener("input", cb);
-      },
+  var config = { DOCUMENT_KEY: "__WRITING__", TOGGLE_KEY: "__THEME__" },
+    editor = document.querySelector(".editor"),
+    toggle = document.querySelector(".switch"),
+    checkbox = toggle.querySelector("input"),
+    indicator = document.querySelector(".indicator"),
+    execKeys = {
+      h: ["hiliteColor", "#d4d4d4"],
+      m: ["formatBlock", "h1"],
+      k: ["formatBlock", "h2"],
     };
-  };
-
-  var Toggle = function () {
-    var TOGGLE_STORAGE_KEY = "__THEME__";
-    var initialTheme = storage.getItem(TOGGLE_STORAGE_KEY) || "light";
-    var element = document.querySelector(".switch");
-    var checkbox = element.querySelector("input");
-
-    element.addEventListener("click", function () {
-      var isDark = checkbox.checked;
-      if (isDark) {
-        document.body.classList.add("is-dark");
-        storage.setItem(TOGGLE_STORAGE_KEY, "dark");
-      } else {
-        document.body.classList.remove("is-dark");
-        storage.setItem(TOGGLE_STORAGE_KEY, "light");
+  function saveToLocalStorage() {
+    indicator.classList.remove("hide");
+    localStorage.setItem(config.DOCUMENT_KEY, editor.innerHTML);
+    setTimeout(function () {
+      indicator.classList.add("hide");
+    }, 600);
+  }
+  function setTheme() {
+    var theme = checkbox.checked ? "dark" : "light";
+    localStorage.setItem(config.TOGGLE_KEY, theme);
+    document.body.classList[checkbox.checked ? "add" : "remove"]("is-dark");
+  }
+  function listen(el, evt, fn) {
+    return el.addEventListener(evt, fn);
+  }
+  listen(editor, "keydown", function (event) {
+    if (event.ctrlKey || event.metaKey) {
+      var args = execKeys[event.key];
+      if (args) {
+        event.preventDefault();
+        document.execCommand(args[0], false, args[1]);
+      } else if (event.key === "s") {
+        event.preventDefault();
+        saveToLocalStorage();
       }
-    });
-
-    if (initialTheme === "dark") {
-      checkbox.checked = true;
-      document.body.classList.add("is-dark");
     }
-  };
-
-  var Indicator = function () {
-    var element = document.querySelector(".indicator");
-
-    return {
-      show: function () {
-        element.classList.remove("hide");
-      },
-      hide: function () {
-        element.classList.add("hide");
-      },
-    };
-  };
-
-  document.addEventListener("DOMContentLoaded", function () {
-    var DOCUMENT_STORAGE_KEY = "__WRITING__";
-    var editor = Editor(save);
-    var toggle = Toggle();
-    var indicator = Indicator();
-
-    function save() {
-      indicator.show();
-      storage.setItem(DOCUMENT_STORAGE_KEY, editor.getHTML());
-      setTimeout(indicator.hide, 600);
-    }
-
-    editor.setHTML(storage.getItem(DOCUMENT_STORAGE_KEY) || "");
-    editor.onInput(save);
   });
+  listen(editor, "input", saveToLocalStorage);
+  listen(toggle, "click", setTheme);
+  editor.focus();
+  editor.innerHTML = localStorage.getItem(config.DOCUMENT_KEY) || "";
+  checkbox.checked = localStorage.getItem(config.TOGGLE_KEY) === "dark";
+  setTheme();
 })();
