@@ -5,9 +5,10 @@
     checkbox = toggle.querySelector("input"),
     indicator = document.querySelector(".indicator"),
     execKeys = {
-      h: ["hiliteColor", "#d4d4d4"],
+      j: ["hiliteColor", "#d4d4d4"],
       m: ["formatBlock", "h1"],
       k: ["formatBlock", "h2"],
+      g: ["formatBlock", "p"]
     };
   function saveToLocalStorage() {
     indicator.classList.remove("hide");
