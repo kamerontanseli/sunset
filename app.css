@@ -1,0 +1,206 @@
+@keyframes fadeInUp {
+  from {
+    transform: translate3d(0, 40px, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Shippori Mincho", serif;
+  background-color: #fff;
+  transition: all 0.2s ease-in-out;
+  min-height: 100vh;
+}
+
+body.is-dark {
+  background-color: #151515;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  opacity: 0;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  animation-name: fadeInUp;
+}
+
+.key-maps {
+  padding: 4em;
+  padding-bottom: 0;
+  padding-left: 2.3em;
+  font-size: 12px;
+  line-height: 1.9;
+  margin: 0;
+  color: #5d5d5d;
+}
+
+.editor {
+  padding: 8em 2em;
+  padding-top: 4em;
+  outline: none;
+  font-size: 14px;
+  line-height: 1.9;
+  color: #000;
+}
+
+.is-dark .editor {
+  color: #fff;
+}
+
+.is-dark .editor span {
+  color: #000;
+}
+
+.editor > *:first-child {
+  margin-top: 0;
+}
+
+.editor:empty::before {
+  content: "Enter a world of imagination...";
+}
+
+@media screen and (max-width: 480px) {
+  .key-maps {
+    display: none;
+  }
+}
+
+.indicator.hide {
+  display: none;
+}
+
+.indicator {
+  font-size: 10px;
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  background: #5d5d5d;
+  background: linear-gradient(
+    to right,
+    #5d5d5d 10%,
+    rgba(255, 255, 255, 0) 42%
+  );
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  animation: load3 1.4s infinite linear;
+  transform: translateZ(0);
+}
+.indicator:before {
+  width: 50%;
+  height: 50%;
+  background: #5d5d5d;
+  border-radius: 100% 0 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+}
+.indicator:after {
+  background: #fff;
+  width: 75%;
+  height: 75%;
+  border-radius: 50%;
+  content: "";
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+.is-dark .indicator:after {
+  background: #151515;
+}
+@-webkit-keyframes load3 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes load3 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: inline-block;
+  width: 40px;
+  height: 18px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  z-index: 99;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2.55px;
+  bottom: 2.55px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #444;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #444;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
