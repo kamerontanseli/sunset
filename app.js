@@ -8,8 +8,17 @@
       j: ["hiliteColor", "#d4d4d4"],
       m: ["formatBlock", "h1"],
       k: ["formatBlock", "h2"],
-      g: ["formatBlock", "p"]
+      g: ["formatBlock", "p"],
     };
+  function exportToDoc() {
+    var blob = new Blob([editor.innerText], { type: "text/plain" });
+    var link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "document.txt";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
   function saveToLocalStorage() {
     indicator.classList.remove("hide");
     localStorage.setItem(config.DOCUMENT_KEY, editor.innerHTML);
@@ -34,6 +43,9 @@
       } else if (event.key === "s") {
         event.preventDefault();
         saveToLocalStorage();
+      } else if (event.key === "i") {
+        event.preventDefault();
+        exportToDoc();
       }
     }
   });
